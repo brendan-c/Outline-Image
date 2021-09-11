@@ -3,8 +3,10 @@ const jimp = require('jimp')
 async function loadImage(path) {
   let img = await jimp.read(path)
 
+  // Array of pixels represented as [red, green, blue, alpha]
   let pixels = []
 
+  // Iterates through input image pixel by pixel
   img.scan(0, 0, img.bitmap.width, img.bitmap.height, function (x, y, index) {
     let data = this.bitmap.data
     // Red, Green, Blue, Alpha
@@ -48,8 +50,11 @@ const colorPixel = (pixel, neighbors, outlineColor) => {
     (neighbor) => neighbor && !isEmpty(neighbor)
   )
 
+  // Is this pixel transparent?
   if (isEmpty(pixel)) {
+    // Does this pixel have a non-transparent neighbor?
     if (hasNeighbor) {
+      // This pixel is part of the outline
       result.push(outlineColor)
     } else {
       result.push(pixel)
@@ -58,16 +63,22 @@ const colorPixel = (pixel, neighbors, outlineColor) => {
     result.push(pixel)
   }
 
+  // Resulting array of pixels including the outline
   return result
 }
 
 function outlineImage(img, outputPath, outlineColor = [255, 250, 226, 255]) {
+  // Break up array of pixels into rows
   const pixels = chunkArray(img.data.pixels, img.data.width)
 
+  // Resulting array of pixels including the outline
   let result = []
 
+  // Iterate through input image pixel by pixel to get neighboring pixels
   pixels.forEach((row, i) => {
     row.forEach((pixel, col) => {
+    // Get neighboring pixels. If the pixel is on outer border, 
+    // the non-existing neighbor gets value of False
       let above = i === 0 ? false : pixels[i - 1][col]
       let below = i === img.data.width - 1 ? false : pixels[i + 1][col]
       let right = col === img.data.width - 1 ? false : pixels[i][col + 1]
@@ -80,18 +91,27 @@ function outlineImage(img, outputPath, outlineColor = [255, 250, 226, 255]) {
   })
 
   return new Promise(function (resolve, reject) {
+    // Creates a new image with empty pixels based on input image dimensions
     new jimp(img.data.width, img.data.height, function (err, image) {
       if (err) return reject(err)
+      // Counter, used to sync with the result array of pixels
       let i = 0
+
+      // Iterates through new empty image pixel by pixel to color each pixel
+      // according to the previously built result
       image.scan(
         0,
         0,
         image.bitmap.width,
         image.bitmap.height,
         function (x, y, index) {
+          // Red
           this.bitmap.data[index + 0] = result[i][0][0]
+          // Green
           this.bitmap.data[index + 1] = result[i][0][1]
+          // Blue
           this.bitmap.data[index + 2] = result[i][0][2]
+          // Alpha
           this.bitmap.data[index + 3] = result[i][0][3]
           i += 1
         }
