@@ -41,7 +41,6 @@ function chunkArray(array, size) {
 // Checks alpha value of RGBa array
 const isEmpty = (colors) => colors[3] === 0
 
-
 const drawOutline = (pixel, neighbors, outlineColor) => {
   let result = []
 
@@ -72,23 +71,22 @@ function outlineImage(img, outputPath, outlineColor = [255, 250, 226, 255]) {
   let pixels = chunkArray(img.data.pixels, img.data.width)
 
   // Create transparent border to ensure full outline
-  pixels = pixels.map(row => [[0,0,0,0], ...row, [0,0,0,0]])
-  pixels.unshift(Array(pixels[0].length).fill([0,0,0,0]))
-  pixels.push(Array(pixels[0].length).fill([0,0,0,0]))
+  pixels = pixels.map((row) => [[0, 0, 0, 0], ...row, [0, 0, 0, 0]])
+  pixels.unshift(Array(pixels[0].length).fill([0, 0, 0, 0]))
+  pixels.push(Array(pixels[0].length).fill([0, 0, 0, 0]))
 
   // New height/width with added transparent border
   let height = pixels.length
   let width = pixels[0].length
 
- 
   // Resulting array of pixels including the outline
   let result = []
 
   // Iterate through input image pixel by pixel to get neighboring pixels
   pixels.forEach((row, i) => {
     row.forEach((pixel, col) => {
-    // Get neighboring pixels. If the pixel is on outer border, 
-    // the non-existing neighbor gets value of False
+      // Get neighboring pixels. If the pixel is on outer border,
+      // the non-existing neighbor gets value of False
       let above = i === 0 ? false : pixels[i - 1][col]
       let below = i === height - 1 ? false : pixels[i + 1][col]
       let right = col === width - 1 ? false : pixels[i][col + 1]
