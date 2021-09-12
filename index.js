@@ -66,7 +66,7 @@ const drawOutline = (pixel, neighbors, outlineColor) => {
   return result
 }
 
-function outlineImage(img, outputPath, outlineColor = [255, 250, 226, 255]) {
+function outlineImage(img, outputPath, outlineColor, trim = true) {
   // Break up array of pixels into rows
   let pixels = chunkArray(img.data.pixels, img.data.width)
 
@@ -125,18 +125,28 @@ function outlineImage(img, outputPath, outlineColor = [255, 250, 226, 255]) {
         }
       )
 
+      if (trim) {
+        image.autocrop({ cropOnlyFrames: false })
+      }
+
       image.write(outputPath)
+
       return resolve(null)
     })
   })
 }
 
+// test
+const white = [255, 250, 226, 255]
+
 loadImage('./test/input1.png').then((img) =>
-  outlineImage(img, './test/output1.png')
+  outlineImage(img, './test/output1.png', white)
 )
+
 loadImage('./test/input2.png').then((img) =>
-  outlineImage(img, './test/output2.png')
+  outlineImage(img, './test/output2.png', white)
 )
+
 loadImage('./test/input3.png').then((img) =>
-  outlineImage(img, './test/output3.png')
+  outlineImage(img, './test/output3.png', white)
 )
