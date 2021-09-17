@@ -1,0 +1,31 @@
+{
+  "name": "outline-image",
+  "version": "0.0.1",
+  "description": "Outlines blocks of color in transparent PNG images",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "jimp": "^0.16.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brendan-c/Outline-Image.git"
+  },
+  "keywords": [
+    "jimp",
+    "outline",
+    "image-manipulation"
+  ],
+  "author": "Brendan-C",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brendan-c/Outline-Image/issues"
+  },
+  "homepage": "https://github.com/brendan-c/Outline-Image#readme"
+}
