@@ -66,6 +66,17 @@ const drawOutline = (pixel, neighbors, outlineColor) => {
   return result
 }
 
+const getNeighbors = (row, col, sourceArray, rowCount, colCount) => {
+  let above = row === 0 ? false : sourceArray[row - 1][col]
+  let below = row === rowCount ? false : sourceArray[row + 1][col]
+  let right = col === colCount ? false : sourceArray[row][col + 1]
+  let left = col === 0 ? false : sourceArray[row][col - 1]
+
+  const neighbors = [above, below, right, left]
+
+  return neighbors
+}
+
 function outlineImage(img, outputPath, outlineColor, trim = true) {
   // Break up array of pixels into rows
   let pixels = chunkArray(img.data.pixels, img.data.width)
@@ -76,23 +87,18 @@ function outlineImage(img, outputPath, outlineColor, trim = true) {
   pixels.push(Array(pixels[0].length).fill([0, 0, 0, 0]))
 
   // New height/width with added transparent border
-  let height = pixels.length
-  let width = pixels[0].length
+  let height = pixels.length - 1
+  let width = pixels[0].length - 1
 
   // Resulting array of pixels including the outline
   let result = []
 
   // Iterate through input image pixel by pixel to get neighboring pixels
-  pixels.forEach((row, i) => {
+  pixels.forEach((_, row) => {
     row.forEach((pixel, col) => {
       // Get neighboring pixels. If the pixel is on outer border,
       // the non-existing neighbor gets value of False
-      let above = i === 0 ? false : pixels[i - 1][col]
-      let below = i === height - 1 ? false : pixels[i + 1][col]
-      let right = col === width - 1 ? false : pixels[i][col + 1]
-      let left = col === 0 ? false : pixels[i][col - 1]
-
-      neighbors = [above, below, right, left]
+      let neighbors = getNeighbors(row, col, pixels, height, width)
 
       result.push(...drawOutline(pixel, neighbors, outlineColor))
     })
