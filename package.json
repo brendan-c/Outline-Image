@@ -1,6 +1,6 @@
 {
   "name": "outline-image",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Outlines blocks of color in transparent PNG images",
   "main": "index.js",
   "directories": {
