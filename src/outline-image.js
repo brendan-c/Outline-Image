@@ -75,18 +75,3 @@ module.exports = async (imagePath, outputPath, outlineColor, trim = true) => {
     console.log(err)
   }
 }
-
-// // test
-// const white = [255, 250, 226, 255]
-
-// loadImage('./test/input1.png').then((img) =>
-//   outlineImage(img, './test/output1.png', white)
-// )
-
-// loadImage('./test/input2.png').then((img) =>
-//   outlineImage(img, './test/output2.png', white)
-// )
-
-// loadImage('./test/input3.png').then((img) =>
-//   outlineImage(img, './test/output3.png', white)
-// )
