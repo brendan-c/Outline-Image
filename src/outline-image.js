@@ -1,5 +1,6 @@
 const jimp = require('jimp')
 const loadImage = require('./utils/load-image')
+const toRGBa = require('./utils/toRGBa')
 const chunkArray = require('./utils/chunk-array')
 const getNeighbors = require('./utils/get-neighbors')
 const drawOutline = require('./utils/draw-outline')
@@ -8,6 +9,9 @@ module.exports = async (imagePath, outputPath, outlineColor, trim = true) => {
   try {
     //load image
     const img = await loadImage(imagePath)
+
+    //check if outlineColor is hex
+    if(!Array.isArray(outlineColor)) outlineColor = toRGBa(outlineColor)
 
     // Break up array of pixels into rows
     let pixels = chunkArray(img.data.pixels, img.data.width)
