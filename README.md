@@ -19,7 +19,7 @@ outlineImage (
 ```
 // only accepts hex string
 // trim {string 'trim'} optional
-npx outline 'input.png' 'output.png' '#ffffff 'trim'
+npx outline 'input.png' 'output.png' '#ffffff' 'trim'
 ```
 
 ### Note:
